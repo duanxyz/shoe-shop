@@ -16,7 +16,7 @@
                         </inertia-link>
                     </div>
                 </div>
-                <button class="text-gray-400 font-mono">Kategori</button>
+                <category-dropdown />
                 <!-- Search -->
                 <search />
 
@@ -207,7 +207,8 @@ import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink";
 import Search from "@/components/Search";
 import UserDropdown from "@/components/Dropdowns/UserDropdown";
 import BasketDropdown from "@/components/Dropdowns/BasketDropdown";
-import MessageDropdown from "@/components/Cards/MessageDropdown.vue";
+import MessageDropdown from "@/components/Dropdowns/MessageDropdown.vue";
+import CategoryDropdown from "@/components/Dropdowns/CategoryDropdown.vue";
 
 export default {
     name: "Navbar",
@@ -219,6 +220,7 @@ export default {
         UserDropdown,
         BasketDropdown,
         MessageDropdown,
+        CategoryDropdown,
     },
     data() {
         return {

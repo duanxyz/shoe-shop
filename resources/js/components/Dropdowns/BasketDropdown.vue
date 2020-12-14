@@ -13,7 +13,7 @@
             </template>
 
             <template #content>
-                <!-- Account Management -->
+                <!-- Basket Management -->
                 <div class="block px-4 py-2 text-xs text-gray-400">
                     <span class="font-bold text-base">Keranjang (6)</span>
                     <a

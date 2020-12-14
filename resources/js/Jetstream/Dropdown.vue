@@ -84,6 +84,7 @@ export default {
                 5: "-mr-5",
                 20: "-mr-20",
                 40: "-mr-40",
+                60: "-mr-60",
             }[this.margin.toString()];
         },
 
