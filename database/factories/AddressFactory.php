@@ -22,7 +22,12 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'receiver' => $this->faker->name(),
+            'address' => $this->faker->address,
+            'city' => $this->faker->city,
+            'zip_code' => $this->faker->postcode,
+            'no_phone' => $this->faker->e164PhoneNumber,
+            'created_at' => $this->faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now', $timezone = null),
         ];
     }
 }
