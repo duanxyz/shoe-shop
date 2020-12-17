@@ -12857,6 +12857,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Navbar: _components_Navbars_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: {
+    carts: Object
   }
 });
 
@@ -13224,6 +13227,9 @@ __webpack_require__.r(__webpack_exports__);
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     BestSellingCard: _components_Cards_BestSellingCard__WEBPACK_IMPORTED_MODULE_1__["default"],
     LastSeenCard: _components_Cards_LastSeenCard__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    carts: Object
   }
 });
 
@@ -14308,31 +14314,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BasketDropdown",
   components: {
     JetDropdown: _Jetstream_Dropdown__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: {
+    carts: Object
   },
   data: function data() {
     return {
@@ -14875,6 +14864,9 @@ __webpack_require__.r(__webpack_exports__);
     BasketDropdown: _components_Dropdowns_BasketDropdown__WEBPACK_IMPORTED_MODULE_5__["default"],
     MessageDropdown: _components_Dropdowns_MessageDropdown_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
     CategoryDropdown: _components_Dropdowns_CategoryDropdown_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+  },
+  props: {
+    carts: Object
   },
   data: function data() {
     return {
@@ -56496,7 +56488,7 @@ var render = function() {
     "div",
     { staticClass: "min-h-screen bg-gray-50" },
     [
-      _c("navbar"),
+      _c("navbar", { attrs: { carts: _vm.carts } }),
       _vm._v(" "),
       _c("main", [_vm._t("default")], 2),
       _vm._v(" "),
@@ -57218,7 +57210,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("app-layout", [
+  return _c("app-layout", { attrs: { carts: _vm.carts } }, [
     _c("div", { staticClass: "pt-24 pb-12" }, [
       _c("div", { staticClass: "max-w-none mx-auto" }, [
         _c(
@@ -58909,121 +58901,79 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto bg-white px-5"
+                      "max-h-52 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto bg-white px-5"
                   },
-                  [
-                    _c("div", { staticClass: "relative grid gap-3 sm:p-2" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50",
-                          attrs: { href: "#" }
-                        },
-                        [
-                          _c("img", {
+                  _vm._l(_vm.carts, function(cart) {
+                    return _c(
+                      "div",
+                      {
+                        key: cart.id,
+                        staticClass: "relative grid gap-3 sm:p-2"
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
                             staticClass:
-                              "flex-shrink-0 h-15 w-15 text-indigo-600",
-                            attrs: { src: "img/items/item1.jpeg" }
-                          }),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "ml-4" }, [
-                            _c(
-                              "p",
-                              {
-                                staticClass:
-                                  "text-base font-bold text-gray-700 hover:text-blue-500"
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Analytics\n                            "
-                                )
-                              ]
-                            ),
+                              "-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50",
+                            attrs: { href: "#" }
+                          },
+                          [
+                            _c("img", {
+                              staticClass:
+                                "flex-shrink-0 h-15 w-15 text-indigo-600",
+                              attrs: { src: "img/items/item1.jpeg" }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "ml-4" }, [
+                              _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "text-base font-bold text-gray-700 hover:text-blue-500"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(cart.name) +
+                                      "\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "p",
+                                { staticClass: "mt-1 text-xs text-gray-500" },
+                                [
+                                  _vm._v(
+                                    "\n                                1 barang " +
+                                      _vm._s(cart.weight) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            ]),
                             _vm._v(" "),
                             _c(
-                              "p",
-                              { staticClass: "mt-1 text-xs text-gray-500" },
+                              "div",
+                              { staticClass: "self-center absolute right-0" },
                               [
-                                _vm._v(
-                                  "\n                                1 barang(200gr)\n                            "
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "text-orange-400 text-sm font-semibold"
+                                  },
+                                  [_vm._v("Rp" + _vm._s(cart.price))]
                                 )
                               ]
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "self-center absolute right-0" },
-                            [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-orange-400 font-semibold"
-                                },
-                                [_vm._v("Rp33.000")]
-                              )
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50",
-                          attrs: { href: "#" }
-                        },
-                        [
-                          _c("img", {
-                            staticClass:
-                              "flex-shrink-0 h-15 w-15 text-indigo-600",
-                            attrs: { src: "img/items/item1.jpeg" }
-                          }),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "ml-4" }, [
-                            _c(
-                              "p",
-                              {
-                                staticClass:
-                                  "text-base font-bold text-gray-700 hover:text-blue-500"
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Analytics\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "p",
-                              { staticClass: "mt-1 text-xs text-gray-500" },
-                              [
-                                _vm._v(
-                                  "\n                                1 barang(200gr)\n                            "
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "self-center absolute right-0" },
-                            [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-orange-400 font-semibold"
-                                },
-                                [_vm._v("Rp33.000")]
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    ])
-                  ]
+                          ]
+                        )
+                      ]
+                    )
+                  }),
+                  0
                 )
               ]
             },
@@ -59632,7 +59582,7 @@ var render = function() {
             _vm._v(" "),
             _c("search"),
             _vm._v(" "),
-            _c("basket-dropdown"),
+            _c("basket-dropdown", { attrs: { carts: _vm.carts } }),
             _vm._v(" "),
             _c(
               "button",

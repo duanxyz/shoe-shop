@@ -24,9 +24,13 @@
                 </div>
                 <div class="border-t border-gray-100"></div>
                 <div
-                    class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto bg-white px-5"
+                    class="max-h-52 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto bg-white px-5"
                 >
-                    <div class="relative grid gap-3 sm:p-2">
+                    <div
+                        v-for="cart in carts"
+                        :key="cart.id"
+                        class="relative grid gap-3 sm:p-2"
+                    >
                         <a
                             href="#"
                             class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
@@ -40,40 +44,16 @@
                                 <p
                                     class="text-base font-bold text-gray-700 hover:text-blue-500"
                                 >
-                                    Analytics
+                                    {{ cart.name }}
                                 </p>
                                 <p class="mt-1 text-xs text-gray-500">
-                                    1 barang(200gr)
+                                    1 barang {{ cart.weight }}
                                 </p>
                             </div>
                             <div class="self-center absolute right-0">
-                                <span class="text-orange-400 font-semibold"
-                                    >Rp33.000</span
-                                >
-                            </div>
-                        </a>
-                        <a
-                            href="#"
-                            class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                        >
-                            <!-- Heroicon name: chart-bar -->
-                            <img
-                                src="img/items/item1.jpeg"
-                                class="flex-shrink-0 h-15 w-15 text-indigo-600"
-                            />
-                            <div class="ml-4">
-                                <p
-                                    class="text-base font-bold text-gray-700 hover:text-blue-500"
-                                >
-                                    Analytics
-                                </p>
-                                <p class="mt-1 text-xs text-gray-500">
-                                    1 barang(200gr)
-                                </p>
-                            </div>
-                            <div class="self-center absolute right-0">
-                                <span class="text-orange-400 font-semibold"
-                                    >Rp33.000</span
+                                <span
+                                    class="text-orange-400 text-sm font-semibold"
+                                    >Rp{{ cart.price }}</span
                                 >
                             </div>
                         </a>
@@ -91,6 +71,9 @@ export default {
     name: "BasketDropdown",
     components: {
         JetDropdown,
+    },
+    props: {
+        carts: Object,
     },
     data() {
         return {
