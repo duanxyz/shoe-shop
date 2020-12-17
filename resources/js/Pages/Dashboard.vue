@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :carts="carts">
         <div class="pt-24 pb-12">
             <div class="max-w-none mx-auto">
                 <div
@@ -25,6 +25,9 @@ export default {
         AppLayout,
         BestSellingCard,
         LastSeenCard,
+    },
+    props: {
+        carts: Object,
     },
 };
 </script>

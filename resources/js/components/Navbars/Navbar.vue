@@ -20,7 +20,7 @@
                 <!-- Search -->
                 <search />
 
-                <basket-dropdown />
+                <basket-dropdown :carts="carts" />
 
                 <button
                     class="cursor-pointer hover:bg-gray-200 py-1 px-2 focus:outline-none"
@@ -221,6 +221,9 @@ export default {
         BasketDropdown,
         MessageDropdown,
         CategoryDropdown,
+    },
+    props: {
+        carts: Object,
     },
     data() {
         return {

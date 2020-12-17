@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-50">
-        <navbar />
+        <navbar :carts="carts" />
 
         <!-- Page Content -->
         <main>
@@ -16,5 +16,8 @@
 import Navbar from "@/components/Navbars/Navbar.vue";
 export default {
     components: { Navbar },
+    props: {
+        carts: Object,
+    },
 };
 </script>
