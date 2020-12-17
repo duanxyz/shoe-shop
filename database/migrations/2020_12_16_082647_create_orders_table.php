@@ -15,13 +15,13 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->String('invoiceNo')->nullable()->unique();
+            $table->String('invoiceNo')->nullable();
             $table->foreignId('customer_id');
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers')
                 ->onDelete('cascade');
-            $table->bigInteger('payment')->nullable();
+            $table->String('payment')->nullable();
             $table->bigInteger('grand_total')->nullable();
             $table->string('status')->default('troli');
             $table->timestamps();
