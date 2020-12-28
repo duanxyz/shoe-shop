@@ -25,7 +25,7 @@
                     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div v-for="permission in availablePermissions" :key="permission">
                             <label class="flex items-center">
-                                <input type="checkbox" class="form-checkbox" :value="permission" v-model="createApiTokenForm.permissions">
+                                <jet-checkbox :value="permission" v-model="createApiTokenForm.permissions"/>
                                 <span class="ml-2 text-sm text-gray-600">{{ permission }}</span>
                             </label>
                         </div>
@@ -67,17 +67,17 @@
                                 </div>
 
                                 <div class="flex items-center">
-                                    <div class="text-sm text-gray-400" v-if="token.last_used_at">
-                                        Last used {{ fromNow(token.last_used_at) }}
+                                    <div class="text-sm text-gray-400" v-if="token.last_used_ago">
+                                        Last used {{ token.last_used_ago }}
                                     </div>
 
-                                    <button class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none"
+                                    <button class="cursor-pointer ml-6 text-sm text-gray-400 underline"
                                                 @click="manageApiTokenPermissions(token)"
                                                 v-if="availablePermissions.length > 0">
                                         Permissions
                                     </button>
 
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" @click="confirmApiTokenDeletion(token)">
+                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmApiTokenDeletion(token)">
                                         Delete
                                     </button>
                                 </div>
@@ -99,8 +99,8 @@
                     Please copy your new API token. For your security, it won't be shown again.
                 </div>
 
-                <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500" v-if="$page.jetstream.flash.token">
-                    {{ $page.jetstream.flash.token }}
+                <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500" v-if="$page.props.jetstream.flash.token">
+                    {{ $page.props.jetstream.flash.token }}
                 </div>
             </template>
 
@@ -121,7 +121,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div v-for="permission in availablePermissions" :key="permission">
                         <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox" :value="permission" v-model="updateApiTokenForm.permissions">
+                            <jet-checkbox :value="permission" v-model="updateApiTokenForm.permissions"/>
                             <span class="ml-2 text-sm text-gray-600">{{ permission }}</span>
                         </label>
                     </div>
@@ -171,6 +171,7 @@
     import JetDialogModal from '@/Jetstream/DialogModal'
     import JetFormSection from '@/Jetstream/FormSection'
     import JetInput from '@/Jetstream/Input'
+    import JetCheckbox from '@/Jetstream/Checkbox'
     import JetInputError from '@/Jetstream/InputError'
     import JetLabel from '@/Jetstream/Label'
     import JetSecondaryButton from '@/Jetstream/SecondaryButton'
@@ -186,6 +187,7 @@
             JetDialogModal,
             JetFormSection,
             JetInput,
+            JetCheckbox,
             JetInputError,
             JetLabel,
             JetSecondaryButton,
@@ -227,9 +229,10 @@
             createApiToken() {
                 this.createApiTokenForm.post(route('api-tokens.store'), {
                     preserveScroll: true,
-                }).then(response => {
-                    if (! this.createApiTokenForm.hasErrors()) {
-                        this.displayingToken = true
+                    onSuccess: () => {
+                        if (! this.createApiTokenForm.hasErrors()) {
+                            this.displayingToken = true
+                        }
                     }
                 })
             },
@@ -244,8 +247,9 @@
                 this.updateApiTokenForm.put(route('api-tokens.update', this.managingPermissionsFor), {
                     preserveScroll: true,
                     preserveState: true,
-                }).then(response => {
-                    this.managingPermissionsFor = null
+                    onSuccess: () => {
+                        this.managingPermissionsFor = null
+                    }
                 })
             },
 
@@ -257,13 +261,10 @@
                 this.deleteApiTokenForm.delete(route('api-tokens.destroy', this.apiTokenBeingDeleted), {
                     preserveScroll: true,
                     preserveState: true,
-                }).then(() => {
-                    this.apiTokenBeingDeleted = null
+                    onSuccess: () => {
+                        this.apiTokenBeingDeleted = null
+                    }
                 })
-            },
-
-            fromNow(timestamp) {
-                return moment(timestamp).local().fromNow()
             },
         },
     }
