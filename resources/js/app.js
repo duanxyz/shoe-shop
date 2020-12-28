@@ -1,21 +1,14 @@
 require('./bootstrap');
 
-require('moment');
-
+// Import modules...
 import Vue from 'vue';
 
-import { InertiaApp } from '@inertiajs/inertia-vue';
+import { InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch,faBars,faShoppingCart,faBell,faEnvelope, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight,faAngleLeft);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-
 
 Vue.mixin({ methods: { route } });
-Vue.use(InertiaApp);
+Vue.use(InertiaPlugin);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
 

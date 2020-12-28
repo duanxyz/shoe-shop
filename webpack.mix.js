@@ -15,6 +15,11 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
+        require('autoprefixer'),
     ])
     .webpackConfig(require('./webpack.config'))
-    .browserSync('127.0.0.1:8000');
+    .browserSync('localhost:8000');
+
+if (mix.inProduction()) {
+    mix.version();
+}

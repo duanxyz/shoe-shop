@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d45648de6f9987e55d2e2e77fd71208",
+    "content-hash": "32686f0c91eab6af88fca3981a1c0f3c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -994,16 +994,16 @@
         },
         {
             "name": "inertiajs/inertia-laravel",
-            "version": "v0.2.15",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inertiajs/inertia-laravel.git",
-                "reference": "3db77cb928a2b8373ebb863fbdc6345883f13b61"
+                "reference": "f802df267eb26ae8d20ccb2614072146b8a10d99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/3db77cb928a2b8373ebb863fbdc6345883f13b61",
-                "reference": "3db77cb928a2b8373ebb863fbdc6345883f13b61",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/f802df267eb26ae8d20ccb2614072146b8a10d99",
+                "reference": "f802df267eb26ae8d20ccb2614072146b8a10d99",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1046,7 @@
             ],
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
-                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.2.15"
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.3.5"
             },
             "funding": [
                 {
@@ -1054,7 +1054,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-02T12:53:20+00:00"
+            "time": "2020-12-23T11:56:53+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -1423,27 +1423,28 @@
         },
         {
             "name": "laravel/jetstream",
-            "version": "v1.6.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "2668f126688aee6187d50939d1afcf496532485c"
+                "reference": "b322da41c1c6d42a42d32aac09749bfd728aa46a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/2668f126688aee6187d50939d1afcf496532485c",
-                "reference": "2668f126688aee6187d50939d1afcf496532485c",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/b322da41c1c6d42a42d32aac09749bfd728aa46a",
+                "reference": "b322da41c1c6d42a42d32aac09749bfd728aa46a",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "illuminate/support": "^8.0",
                 "jenssegers/agent": "^2.6",
-                "laravel/fortify": "^1.0",
+                "laravel/fortify": "^1.6.1",
+                "league/commonmark": "^1.3",
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
-                "inertiajs/inertia-laravel": "^0.2.4",
+                "inertiajs/inertia-laravel": "^0.3",
                 "laravel/sanctum": "^2.6",
                 "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^6.0",
@@ -1452,7 +1453,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -1485,7 +1486,7 @@
                 "issues": "https://github.com/laravel/jetstream/issues",
                 "source": "https://github.com/laravel/jetstream"
             },
-            "time": "2020-12-08T18:37:50+00:00"
+            "time": "2020-12-28T01:39:45+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -5263,23 +5264,24 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "0.9.4",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/ziggy.git",
-                "reference": "82ea6ec6cb6ab3545b0245310b2a424316fe48d8"
+                "reference": "4777dafd683873978ccc529085187d03b750d39f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/ziggy/zipball/82ea6ec6cb6ab3545b0245310b2a424316fe48d8",
-                "reference": "82ea6ec6cb6ab3545b0245310b2a424316fe48d8",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/4777dafd683873978ccc529085187d03b750d39f",
+                "reference": "4777dafd683873978ccc529085187d03b750d39f",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": ">=5.4@dev"
             },
             "require-dev": {
-                "orchestra/testbench": "^5.0"
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.2"
             },
             "type": "library",
             "extra": {
@@ -5306,10 +5308,14 @@
                 {
                     "name": "Jake Bathman",
                     "email": "jake@tighten.co"
+                },
+                {
+                    "name": "Jacob Baker-Kretzmar",
+                    "email": "jacob@tighten.co"
                 }
             ],
             "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
-            "homepage": "https://github.com/tightenco/ziggy",
+            "homepage": "https://github.com/tighten/ziggy",
             "keywords": [
                 "Ziggy",
                 "javascript",
@@ -5318,9 +5324,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tighten/ziggy/issues",
-                "source": "https://github.com/tighten/ziggy/tree/0.9.4"
+                "source": "https://github.com/tighten/ziggy/tree/v1.0.4"
             },
-            "time": "2020-06-05T14:42:41+00:00"
+            "time": "2020-12-06T22:07:45+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -8067,7 +8073,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel/jetstream": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
