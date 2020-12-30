@@ -27,7 +27,7 @@
                     class="max-h-52 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto bg-white px-5"
                 >
                     <div
-                        v-for="cart in carts"
+                        v-for="cart in $page.props.carts"
                         :key="cart.id"
                         class="relative grid gap-3 sm:p-2"
                     >
@@ -38,7 +38,7 @@
                             <!-- Heroicon name: chart-bar -->
                             <img
                                 src="img/items/item1.jpeg"
-                                class="flex-shrink-0 h-15 w-15 text-indigo-600"
+                                class="flex-shrink-0 h-14 w-14 text-indigo-600"
                             />
                             <div class="ml-4">
                                 <p
@@ -71,9 +71,6 @@ export default {
     name: "BasketDropdown",
     components: {
         JetDropdown,
-    },
-    props: {
-        carts: Object,
     },
     data() {
         return {
