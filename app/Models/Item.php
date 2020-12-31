@@ -32,7 +32,7 @@ class Item extends Model
 
     public function photo()
     {
-        return $this->hasOne(Photo_item::class);
+        return $this->hasOne(Photo_item::class)->select(array('id', 'item_id', 'photo_url'));
     }
 
     public function shortItems()

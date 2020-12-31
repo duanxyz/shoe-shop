@@ -10,11 +10,16 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
+    protected $items;
+
+    public function __construct(Item $items)
+    {
+        $this->items = $items;
+    }
     public function index()
     {
         return Inertia::render('Dashboard', [
-            'carts' => Customer::where('user_id', Auth::id())->first()->cart->items,
-            'bestSellers' => Item::limit(20)->orderBy('sold')->get(),
+            'bestSellers' => $this->items->shortItems(),
         ]);
     }
 }

@@ -9,13 +9,29 @@ import PortalVue from 'portal-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch,faBars,faShoppingCart,faBell,faEnvelope, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight,faAngleLeft);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight, faAngleLeft);
 
+/* filters */
+Vue.filter('truncate', (text, length, clamp) => {
+    clamp = clamp || '...';
+    var node = document.createElement('div');
+    node.innerHTML = text;
+    var content = node.textContent;
+    return content.length > length ? content.slice(0, length) + clamp : content;
+});
+
+Vue.filter('curency', (value) => {
+    const val = (value / 1).toFixed().replace('.', ',');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+});
+
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.mixin({ methods: { route } });
 Vue.use(InertiaPlugin);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
+
 
 const app = document.getElementById('app');
 
