@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Cart;
 use App\Models\Item;
-use App\Models\Order;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder
@@ -17,6 +15,7 @@ class ItemSeeder extends Seeder
     public function run()
     {
         Item::factory()->count(100)
+            ->hasPhotos(4)
             ->create();
         // Cart::factory()
         //     ->count(1)

@@ -20,8 +20,23 @@ class Item extends Model
         return $this->belongsToMany(Order::class, 'order_details');
     }
 
-    public function Carts()
+    public function carts()
     {
         return $this->belongsToMany(Cart::class);
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(Photo_item::class);
+    }
+
+    public function photo()
+    {
+        return $this->hasOne(Photo_item::class);
+    }
+
+    public function shortItems()
+    {
+        return $this->with('photo')->limit(20)->orderBy('sold')->get();
     }
 }
