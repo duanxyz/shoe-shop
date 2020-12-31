@@ -13953,7 +13953,8 @@ __webpack_require__.r(__webpack_exports__);
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     BestSellingCard: _components_Cards_BestSellingCard__WEBPACK_IMPORTED_MODULE_1__["default"],
     LastSeenCard: _components_Cards_LastSeenCard__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
+  },
+  props: ['bestSellers']
 });
 
 /***/ }),
@@ -15028,7 +15029,36 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _CardItemMini__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CardItemMini */ "./resources/js/components/Cards/CardItemMini.vue");
+/* harmony import */ var _components_Rating__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/Rating */ "./resources/js/components/Rating.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -15075,26 +15105,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "BestSellingCard",
+  name: 'BestSellingCard',
   components: {
-    CardItemMini: _CardItemMini__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Rating: _components_Rating__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: ['bestSellers'],
   data: function data() {
     return {
       curentScrollLeft: null,
       maxScrollLeft: null,
-      isVisible: false
+      isVisible: false,
+      rating: 5
     };
   },
   methods: {
     scrollLeft: function scrollLeft() {
-      var content = document.querySelector("#listItems");
+      var content = document.querySelector('#listItems');
       this.maxScrollLeft = content.scrollWidth - content.clientWidth;
       content.scrollLeft -= 100;
       this.curentScrollLeft = content.scrollLeft;
     },
     scrollRight: function scrollRight() {
-      var content = document.querySelector("#listItems");
+      var content = document.querySelector('#listItems');
       this.maxScrollLeft = content.scrollWidth - content.clientWidth;
       content.scrollLeft += 100;
       this.curentScrollLeft = content.scrollLeft;
@@ -38277,7 +38309,9 @@ var render = function() {
               "bg-white overflow-hidden shadow-xl sm:rounded-lg px-10"
           },
           [
-            _c("best-selling-card"),
+            _c("best-selling-card", {
+              attrs: { bestSellers: _vm.bestSellers }
+            }),
             _vm._v(" "),
             _c("hr", { staticClass: "border-gray-300" }),
             _vm._v(" "),
@@ -40266,8 +40300,69 @@ var render = function() {
           }
         }
       },
-      [_c("card-item-mini")],
-      1
+      _vm._l(_vm.bestSellers, function(bestSeller) {
+        return _c(
+          "div",
+          { key: bestSeller.id, staticClass: "w-48 cursor-pointer pb-3" },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex flex-col min-w-0 break-words bg-white shadow hover:shadow-lg rounded-xl"
+              },
+              [
+                _c("img", {
+                  staticClass: "rounded-t-xl h-52",
+                  attrs: { src: "img/items/" + bestSeller.photo.photo_url }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "px-4 py-5 flex-auto" }, [
+                  _c("h6", { staticClass: "text-xs font-semibold" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm._f("truncate")(bestSeller.name, 40, "...")) +
+                        "\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "font-bold" }, [
+                    _vm._v(
+                      "\n                        Rp" +
+                        _vm._s(_vm._f("curency")(bestSeller.price)) +
+                        "\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "flex" },
+                    [
+                      _c("rating", {
+                        model: {
+                          value: _vm.rating,
+                          callback: function($$v) {
+                            _vm.rating = $$v
+                          },
+                          expression: "rating"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "ml-3" }, [
+                        _vm._v(
+                          "(" + _vm._s(_vm._f("curency")(bestSeller.sold)) + ")"
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ])
+              ]
+            )
+          ]
+        )
+      }),
+      0
     ),
     _vm._v(" "),
     _c(
@@ -40288,7 +40383,7 @@ var render = function() {
               "button",
               {
                 staticClass:
-                  "bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 left-10",
+                  "bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 left-20",
                 on: {
                   click: _vm.scrollLeft,
                   mouseover: function($event) {
@@ -40310,7 +40405,7 @@ var render = function() {
               "button",
               {
                 staticClass:
-                  "bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 right-10",
+                  "bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 right-20",
                 on: {
                   click: _vm.scrollRight,
                   mouseover: function($event) {
@@ -56621,6 +56716,19 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Import
 
 
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSearch"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faBars"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faShoppingCart"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faBell"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faEnvelope"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faAngleRight"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faAngleLeft"]);
+/* filters */
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('truncate', function (text, length, clamp) {
+  clamp = clamp || '...';
+  var node = document.createElement('div');
+  node.innerHTML = text;
+  var content = node.textContent;
+  return content.length > length ? content.slice(0, length) + clamp : content;
+});
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('curency', function (value) {
+  var val = (value / 1).toFixed().replace('.', ',');
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+});
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('font-awesome-icon', _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_6__["FontAwesomeIcon"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
   methods: {

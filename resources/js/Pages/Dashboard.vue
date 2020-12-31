@@ -5,7 +5,7 @@
                 <div
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-10"
                 >
-                    <best-selling-card />
+                    <best-selling-card :bestSellers="bestSellers"/>
                     <hr class="border-gray-300" />
                     <last-seen-card />
                     <hr class="border-gray-300" />
@@ -16,15 +16,16 @@
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout'
-import BestSellingCard from "@/components/Cards/BestSellingCard";
-import LastSeenCard from "@/components/Cards/LastSeenCard";
+import AppLayout from '@/Layouts/AppLayout';
+import BestSellingCard from '@/components/Cards/BestSellingCard';
+import LastSeenCard from '@/components/Cards/LastSeenCard';
 
-    export default {
-        components: {
-            AppLayout,
-            BestSellingCard,
+export default {
+    components: {
+        AppLayout,
+        BestSellingCard,
         LastSeenCard,
     },
-    }
+    props:['bestSellers'],
+};
 </script>

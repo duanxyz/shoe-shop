@@ -14,7 +14,36 @@
             @mouseover="isVisible = true"
             @mouseleave="isVisible = false"
         >
-            <card-item-mini />
+            <div
+                class="w-48 cursor-pointer pb-3"
+                v-for="bestSeller in bestSellers"
+                :key="bestSeller.id"
+            >
+                <div
+                    class="flex flex-col min-w-0 break-words bg-white shadow hover:shadow-lg rounded-xl"
+                >
+                    <img
+                        :src="'img/items/' + bestSeller.photo.photo_url"
+                        class="rounded-t-xl h-52"
+                    />
+                    <div class="px-4 py-5 flex-auto">
+                        <h6 class="text-xs font-semibold">
+                            {{ bestSeller.name | truncate(40, '...') }}
+                        </h6>
+                        <p class="font-bold">
+                            Rp{{ bestSeller.price | curency }}
+                        </p>
+                        <!-- rating -->
+                        <div class="flex">
+                            <rating v-model="rating" />
+                            <span class="ml-3"
+                                >({{ bestSeller.sold | curency }})</span
+                            >
+                        </div>
+                        <!-- end rating -->
+                    </div>
+                </div>
+            </div>
         </div>
         <div v-show="isVisible">
             <button
@@ -22,7 +51,7 @@
                 v-if="curentScrollLeft"
                 @mouseover="isVisible = true"
                 @mouseleave="isVisible = false"
-                class="bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 left-10"
+                class="bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 left-20"
             >
                 <font-awesome-icon icon="angle-left" />
             </button>
@@ -34,7 +63,7 @@
                 "
                 @mouseover="isVisible = true"
                 @mouseleave="isVisible = false"
-                class="bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 right-10"
+                class="bg-white w-6 cursor-pointer text-gray-400 rounded-full shadow outline-none focus:outline-none absolute top-2/4 right-20"
             >
                 <font-awesome-icon icon="angle-right" />
             </button>
@@ -43,28 +72,30 @@
 </template>
 
 <script>
-import CardItemMini from "./CardItemMini";
+import Rating from '@/components/Rating';
 export default {
-    name: "BestSellingCard",
+    name: 'BestSellingCard',
     components: {
-        CardItemMini,
+        Rating,
     },
+    props: ['bestSellers'],
     data() {
         return {
             curentScrollLeft: null,
             maxScrollLeft: null,
             isVisible: false,
+            rating: 5,
         };
     },
     methods: {
         scrollLeft() {
-            let content = document.querySelector("#listItems");
+            let content = document.querySelector('#listItems');
             this.maxScrollLeft = content.scrollWidth - content.clientWidth;
             content.scrollLeft -= 100;
             this.curentScrollLeft = content.scrollLeft;
         },
         scrollRight() {
-            let content = document.querySelector("#listItems");
+            let content = document.querySelector('#listItems');
             this.maxScrollLeft = content.scrollWidth - content.clientWidth;
             content.scrollLeft += 100;
             this.curentScrollLeft = content.scrollLeft;
