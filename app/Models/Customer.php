@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Customer extends Model
 {
@@ -30,8 +31,13 @@ class Customer extends Model
         return $this->hasOne(Cart::class);
     }
 
-    public function last_seen()
+    public function lastSeen()
     {
         return $this->belongsToMany(Item::class, 'last_seen');
+    }
+
+    public function getIdItemLastSeen()
+    {
+        return $this->with('lastSeen')->find(Auth::id());
     }
 }

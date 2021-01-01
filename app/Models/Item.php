@@ -25,7 +25,7 @@ class Item extends Model
         return $this->belongsToMany(Cart::class);
     }
 
-    public function seen()
+    public function lastSeen()
     {
         return $this->belongsToMany(Customer::class, 'last_seen');
     }
@@ -40,8 +40,15 @@ class Item extends Model
         return $this->hasOne(Photo_item::class)->select(array('id', 'item_id', 'photo_url'));
     }
 
-    public function shortItems()
+    public function getBestSellers()
     {
         return $this->with('photo')->limit(20)->orderBy('sold')->get();
+    }
+
+    public function getLastSeen($custumerIds)
+    {
+        return Item::with('photo')->whereHas('lastSeen', function ($q) use ($custumerIds) {
+            $q->whereIn('id', $custumerIds);
+        })->get();
     }
 }
