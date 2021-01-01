@@ -5,9 +5,9 @@
                 <div
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-10"
                 >
-                    <best-selling-card :bestSellers="bestSellers"/>
+                    <best-selling-card :bestSellers="bestSellers" />
                     <hr class="border-gray-300" />
-                    <last-seen-card />
+                    <last-seen-card :lastSeen="lastSeen" />
                     <hr class="border-gray-300" />
                 </div>
             </div>
@@ -26,6 +26,6 @@ export default {
         BestSellingCard,
         LastSeenCard,
     },
-    props:['bestSellers'],
+    props: ['bestSellers', 'lastSeen'],
 };
 </script>
