@@ -25,6 +25,11 @@ class Item extends Model
         return $this->belongsToMany(Cart::class);
     }
 
+    public function seen()
+    {
+        return $this->belongsToMany(Customer::class, 'last_seen');
+    }
+
     public function photos()
     {
         return $this->hasMany(Photo_item::class);
