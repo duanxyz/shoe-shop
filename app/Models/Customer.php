@@ -29,4 +29,9 @@ class Customer extends Model
     {
         return $this->hasOne(Cart::class);
     }
+
+    public function last_seen()
+    {
+        return $this->belongsToMany(Item::class, 'last_seen');
+    }
 }

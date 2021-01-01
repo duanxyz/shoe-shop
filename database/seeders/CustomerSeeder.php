@@ -38,5 +38,10 @@ class CustomerSeeder extends Seeder
                 $items->random(rand(10, 10))->pluck('id')->toArray()
             );
         });
+        Customer::all()->each(function ($customer) use ($items) {
+            $customer->last_seen()->attach(
+                $items->random(rand(5, 20))->pluck('id')->toArray()
+            );
+        });
     }
 }
