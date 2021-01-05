@@ -33,19 +33,19 @@
 </template>
 
 <script>
-    export default {
+export default {
     props: {
         align: {
-            default: "right",
+            default: 'right',
         },
         width: {
-            default: "48",
+            default: '48',
         },
         margin: {
-            default: "5",
+            default: '5',
         },
         contentClasses: {
-            default: () => ["py-1", "bg-white"],
+            default: () => ['py-1', 'bg-white'],
         },
     },
 
@@ -62,39 +62,39 @@
             }
         };
 
-        this.$once("hook:destroyed", () => {
-            document.removeEventListener("keydown", closeOnEscape);
+        this.$once('hook:destroyed', () => {
+            document.removeEventListener('keydown', closeOnEscape);
         });
 
-        document.addEventListener("keydown", closeOnEscape);
+        document.addEventListener('keydown', closeOnEscape);
     },
 
     computed: {
         widthClass() {
             return {
-                48: "w-48",
-                96: "w-96",
+                48: 'w-48',
+                96: 'w-96',
             }[this.width.toString()];
         },
         marginClass() {
             return {
-                5: "-mr-5",
-                20: "-mr-20",
-                40: "-mr-40",
-                60: "-mr-60",
+                5: '-mr-5',
+                20: '-mr-20',
+                40: '-mr-40',
+                60: '-mr-60',
             }[this.margin.toString()];
         },
 
         alignmentClasses() {
             console.log(this.align);
-            if (this.align == "left") {
-                return "origin-top-left left-0";
-            } else if (this.align == "right") {
-                return "origin-top-right right-0";
+            if (this.align == 'left') {
+                return 'origin-top-left left-0';
+            } else if (this.align == 'right') {
+                return 'origin-top-right right-0';
             } else {
-                return "origin-top";
+                return 'origin-top';
             }
         },
     },
-    }
+};
 </script>

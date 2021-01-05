@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Category;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +84,20 @@ class HandleInertiaRequests extends Middleware
                 if (Auth::id()) {
                     return Customer::where('user_id', Auth::id())->first()->cart->items;
                 }
-            }
+            },
+            'categories' => function () {
+                if (Auth::id()) {
+                    return [
+                        'male' => $this->getCategory("pria"),
+                        'woman' => $this->getCategory("wanita")
+                    ];
+                }
+            },
         ]);
+    }
+
+    public function getCategory($genre)
+    {
+        return Category::where('name', 'LIKE', '%' . $genre . '%')->get(array('id', 'name'));
     }
 }
