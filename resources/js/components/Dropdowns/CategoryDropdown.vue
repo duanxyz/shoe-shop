@@ -3,7 +3,7 @@
         <jet-dropdown align="right" width="96" margin="60">
             <template #trigger>
                 <button
-                    class="text-gray-400 font-mono text-xs hover:bg-gray-300 rounded-md p-1"
+                    class="text-gray-400 font-mono text-xs hover:bg-gray-100 rounded-md p-1"
                 >
                     Kategori
                 </button>
@@ -11,14 +11,14 @@
 
             <template #content>
                 <div class="flex rounded-lg shadow-lg">
-                    <div class="ring-1 ring-black ring-opacity-5 bg-white px-5">
+                    <div class="ring-1 ring-black ring-opacity-5 bg-white">
                         <div
                             class="relative grid gap-3 sm:p-2 text-gray-500 font-semibold text-sm"
                         >
                             <a
                                 @mouseover="isVisible = false"
                                 href="#"
-                                class="-m-3 p-3 items-start rounded-lg hover:bg-gray-50"
+                                class="p-2 items-start rounded-lg hover:bg-gray-50"
                             >
                                 Sepatu Pria
                             </a>
@@ -26,7 +26,7 @@
                                 @mouseover="isVisible = true"
                                 @mouseleave="isVisible = false"
                                 href="#"
-                                class="-m-3 p-3 items-start rounded-lg hover:bg-gray-50"
+                                class="items-start rounded-lg hover:bg-gray-50"
                             >
                                 Sepatu Wanita
                             </a>
@@ -37,20 +37,32 @@
                         class="relative grid gap-3 sm:p-2 text-gray-500 font-semibold text-sm"
                     >
                         <div v-if="isVisible">
-                            <a
-                                href="#"
-                                class="-m-3 p-3 items-start rounded-lg hover:bg-gray-50"
+                            <div
+                                v-for="(category, index) in $page.props
+                                    .categories.woman"
+                                :key="index"
                             >
-                                Sepatu Wanita
-                            </a>
+                                <a
+                                    href="#"
+                                    class="items-start rounded-lg hover:bg-gray-50"
+                                >
+                                    {{ category.name }}
+                                </a>
+                            </div>
                         </div>
                         <div v-else>
-                            <a
-                                href="#"
-                                class="-m-3 p-3 items-start rounded-lg hover:bg-gray-50"
+                            <div
+                                v-for="(category, index) in $page.props
+                                    .categories.male"
+                                :key="index"
                             >
-                                Sepatu Pria
-                            </a>
+                                <a
+                                    href="#"
+                                    class="items-start rounded-lg hover:bg-gray-50"
+                                >
+                                    {{ category.name }}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,18 +72,16 @@
 </template>
 
 <script>
-import JetDropdown from "@/Jetstream/Dropdown";
+import JetDropdown from '@/Jetstream/Dropdown';
 
 export default {
-    name: "CategoryDropdown",
+    name: 'CategoryDropdown',
     components: {
         JetDropdown,
     },
     data() {
         return {
             isVisible: false,
-            isVisibleWoman: false,
-            isVisibleMan: false,
         };
     },
 };

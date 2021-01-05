@@ -100,3 +100,4 @@ class HandleInertiaRequests extends Middleware
     {
         return Category::where('name', 'LIKE', '%' . $genre . '%')->get(array('id', 'name'));
     }
+}

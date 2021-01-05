@@ -12489,17 +12489,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     align: {
-      "default": "right"
+      "default": 'right'
     },
     width: {
-      "default": "48"
+      "default": '48'
     },
     margin: {
-      "default": "5"
+      "default": '5'
     },
     contentClasses: {
       "default": function _default() {
-        return ["py-1", "bg-white"];
+        return ['py-1', 'bg-white'];
       }
     }
   },
@@ -12517,35 +12517,35 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
 
-    this.$once("hook:destroyed", function () {
-      document.removeEventListener("keydown", closeOnEscape);
+    this.$once('hook:destroyed', function () {
+      document.removeEventListener('keydown', closeOnEscape);
     });
-    document.addEventListener("keydown", closeOnEscape);
+    document.addEventListener('keydown', closeOnEscape);
   },
   computed: {
     widthClass: function widthClass() {
       return {
-        48: "w-48",
-        96: "w-96"
+        48: 'w-48',
+        96: 'w-96'
       }[this.width.toString()];
     },
     marginClass: function marginClass() {
       return {
-        5: "-mr-5",
-        20: "-mr-20",
-        40: "-mr-40",
-        60: "-mr-60"
+        5: '-mr-5',
+        20: '-mr-20',
+        40: '-mr-40',
+        60: '-mr-60'
       }[this.margin.toString()];
     },
     alignmentClasses: function alignmentClasses() {
       console.log(this.align);
 
-      if (this.align == "left") {
-        return "origin-top-left left-0";
-      } else if (this.align == "right") {
-        return "origin-top-right right-0";
+      if (this.align == 'left') {
+        return 'origin-top-left left-0';
+      } else if (this.align == 'right') {
+        return 'origin-top-right right-0';
       } else {
-        return "origin-top";
+        return 'origin-top';
       }
     }
   }
@@ -15412,17 +15412,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "CategoryDropdown",
+  name: 'CategoryDropdown',
   components: {
     JetDropdown: _Jetstream_Dropdown__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
-      isVisible: false,
-      isVisibleWoman: false,
-      isVisibleMan: false
+      isVisible: false
     };
   }
 });
@@ -40807,7 +40817,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "text-gray-400 font-mono text-xs hover:bg-gray-300 rounded-md p-1"
+                      "text-gray-400 font-mono text-xs hover:bg-gray-100 rounded-md p-1"
                   },
                   [_vm._v("\n                Kategori\n            ")]
                 )
@@ -40823,8 +40833,7 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass:
-                        "ring-1 ring-black ring-opacity-5 bg-white px-5"
+                      staticClass: "ring-1 ring-black ring-opacity-5 bg-white"
                     },
                     [
                       _c(
@@ -40838,7 +40847,7 @@ var render = function() {
                             "a",
                             {
                               staticClass:
-                                "-m-3 p-3 items-start rounded-lg hover:bg-gray-50",
+                                "p-2 items-start rounded-lg hover:bg-gray-50",
                               attrs: { href: "#" },
                               on: {
                                 mouseover: function($event) {
@@ -40857,7 +40866,7 @@ var render = function() {
                             "a",
                             {
                               staticClass:
-                                "-m-3 p-3 items-start rounded-lg hover:bg-gray-50",
+                                "items-start rounded-lg hover:bg-gray-50",
                               attrs: { href: "#" },
                               on: {
                                 mouseover: function($event) {
@@ -40889,36 +40898,58 @@ var render = function() {
                     },
                     [
                       _vm.isVisible
-                        ? _c("div", [
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "-m-3 p-3 items-start rounded-lg hover:bg-gray-50",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            Sepatu Wanita\n                        "
+                        ? _c(
+                            "div",
+                            _vm._l(_vm.$page.props.categories.woman, function(
+                              category,
+                              index
+                            ) {
+                              return _c("div", { key: index }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "items-start rounded-lg hover:bg-gray-50",
+                                    attrs: { href: "#" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(category.name) +
+                                        "\n                            "
+                                    )
+                                  ]
                                 )
-                              ]
-                            )
-                          ])
-                        : _c("div", [
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "-m-3 p-3 items-start rounded-lg hover:bg-gray-50",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            Sepatu Pria\n                        "
+                              ])
+                            }),
+                            0
+                          )
+                        : _c(
+                            "div",
+                            _vm._l(_vm.$page.props.categories.male, function(
+                              category,
+                              index
+                            ) {
+                              return _c("div", { key: index }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "items-start rounded-lg hover:bg-gray-50",
+                                    attrs: { href: "#" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(category.name) +
+                                        "\n                            "
+                                    )
+                                  ]
                                 )
-                              ]
-                            )
-                          ])
+                              ])
+                            }),
+                            0
+                          )
                     ]
                   )
                 ])
