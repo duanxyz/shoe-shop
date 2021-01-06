@@ -7,9 +7,9 @@ import { InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch,faBars,faShoppingCart,faBell,faEnvelope, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faSearch,faBars,faShoppingCart,faBell,faEnvelope, faAngleRight, faAngleLeft, faCaretRight, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight, faAngleLeft);
+library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight, faAngleLeft, faCaretRight, faPlusCircle, faMinusCircle);
 
 /* filters */
 Vue.filter('truncate', (text, length, clamp) => {

@@ -19,8 +19,9 @@
                 v-for="bestSeller in bestSellers"
                 :key="bestSeller.id"
             >
-                <div
-                    class="flex flex-col min-w-0 break-words bg-white shadow hover:shadow-lg rounded-xl"
+                <inertia-link
+                    :href="route('details', bestSeller.id)"
+                    :class="'flex flex-col min-w-0 break-words bg-white shadow hover:shadow-lg rounded-xl'"
                 >
                     <img
                         :src="'img/items/' + bestSeller.photo.photo_url"
@@ -42,7 +43,7 @@
                         </div>
                         <!-- end rating -->
                     </div>
-                </div>
+                </inertia-link>
             </div>
         </div>
         <div v-show="isVisible">
@@ -73,6 +74,7 @@
 
 <script>
 import Rating from '@/components/Rating';
+
 export default {
     name: 'BestSellingCard',
     components: {
