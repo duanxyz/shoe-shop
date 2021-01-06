@@ -17,6 +17,13 @@ class Cart extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Item::class)->withPivot('quantity');
+    }
+
+    public function getCarts($id)
+    {
+        return $this->with(['items' => function ($item) {
+            $item->with('photo');
+        }])->find($id);
     }
 }
