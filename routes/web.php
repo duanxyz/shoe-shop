@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemDetailsController;
 use Illuminate\Foundation\Application;
@@ -28,5 +29,5 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/details/{id}', [ItemDetailsController::class, 'index'])->name('details');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::resource('cart', CartController::class);
 });

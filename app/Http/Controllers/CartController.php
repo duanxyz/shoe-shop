@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Customer;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CartController extends Controller
 {
+    protected $cart;
+
+    public function __construct(Cart $cart)
+    {
+        $this->cart = $cart;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +24,9 @@ class CartController extends Controller
      */
     public function index()
     {
+        // return $this->cart->getCarts(Customer::find(Auth::id())->cart->id);
         return Inertia::render('Cart/index', [
-            'cart' => Customer::where('user_id', Auth::id())->first()->cart->items,
+            'cart' => $this->cart->getCarts(Customer::find(Auth::id())->cart->id),
         ]);
     }
 
