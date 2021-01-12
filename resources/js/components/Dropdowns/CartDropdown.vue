@@ -15,7 +15,9 @@
             <template #content>
                 <!-- Basket Management -->
                 <div class="block px-4 py-2 text-xs text-gray-400">
-                    <span class="font-bold text-base">Keranjang (6)</span>
+                    <span class="font-bold text-base"
+                        >Keranjang ({{ $page.props.carts.items.length }})</span
+                    >
                     <a
                         href="#"
                         class="text-blue-500 font-medium text-sm hover:text-blue-600"
@@ -27,7 +29,7 @@
                     class="max-h-52 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto bg-white px-5"
                 >
                     <div
-                        v-for="cart in $page.props.carts"
+                        v-for="cart in $page.props.carts.items"
                         :key="cart.id"
                         class="relative grid gap-3 sm:p-2"
                     >
@@ -37,23 +39,24 @@
                         >
                             <!-- Heroicon name: chart-bar -->
                             <img
-                                src="img/items/item1.jpeg"
+                                :src="'../img/items/' + cart.photo.photo_url"
                                 class="flex-shrink-0 h-14 w-14 text-indigo-600"
                             />
                             <div class="ml-4">
                                 <p
                                     class="text-base font-bold text-gray-700 hover:text-blue-500"
                                 >
-                                    {{ cart.name }}
+                                    {{ cart.name | truncate(15, '...') }}
                                 </p>
                                 <p class="mt-1 text-xs text-gray-500">
-                                    1 barang {{ cart.weight }}
+                                    {{ cart.pivot.quantity }} barang
+                                    {{ cart.weight }} gram
                                 </p>
                             </div>
                             <div class="self-center absolute right-0">
                                 <span
-                                    class="text-orange-400 text-sm font-semibold"
-                                    >Rp{{ cart.price }}</span
+                                    class="text-yellow-500 text-sm font-semibold"
+                                    >Rp{{ cart.price | curency }}</span
                                 >
                             </div>
                         </a>
@@ -65,10 +68,10 @@
 </template>
 
 <script>
-import JetDropdown from "@/Jetstream/Dropdown";
+import JetDropdown from '@/Jetstream/Dropdown';
 
 export default {
-    name: "BasketDropdown",
+    name: 'BasketDropdown',
     components: {
         JetDropdown,
     },
