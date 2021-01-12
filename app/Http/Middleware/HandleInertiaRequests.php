@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -80,9 +81,11 @@ class HandleInertiaRequests extends Middleware
                     return [$key => $bag->messages()];
                 })->all();
             },
-            'carts' => function () use ($request) {
+            'carts' => function () {
                 if (Auth::id()) {
-                    return Customer::where('user_id', Auth::id())->first()->cart->items;
+                    return Cart::with(['items' => function ($item) {
+                        $item->with('photo');
+                    }])->find(Customer::find(Auth::id())->cart->id);
                 }
             },
             'categories' => function () {
