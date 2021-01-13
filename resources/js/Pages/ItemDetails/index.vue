@@ -236,17 +236,23 @@
                 </div>
             </div>
         </div>
+        <action-checkout
+            :totalPrice="item.price * totalItem"
+            :item="{ item, quantity: totalItem }"
+        />
     </app-layout>
 </template>
 
 <script>
 import AppLayout from '@/Layouts/AppLayout';
 import Rating from '@/components/Rating';
+import ActionCheckout from '@/components/ActionCheckout';
 
 export default {
     components: {
         AppLayout,
         Rating,
+        ActionCheckout,
     },
     props: ['item'],
     data() {
