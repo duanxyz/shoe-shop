@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CartController extends Controller
@@ -26,7 +27,7 @@ class CartController extends Controller
     {
         // return $this->cart->getCarts(Customer::find(Auth::id())->cart->id);
         return Inertia::render('Cart/index', [
-            'cart' => $this->cart->getCarts(Customer::find(Auth::id())->cart->id),
+            'cart' => $this->cart->getCarts(Auth::user()->customer->cart->id),
         ]);
     }
 
@@ -48,7 +49,16 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cart = Auth::user()->customer->cart->items();
+        $cart_item = $cart->find($request->itemId);
+        if ($cart_item) {
+            $quantity = $cart_item->pivot->quantity;
+            $cart->detach([$request->itemId]);
+            $cart->attach([$request->itemId => ['quantity' => $request->quantity + $quantity]]);
+        } else {
+            $cart->attach([$request->itemId => ['quantity' => $request->quantity]]);
+        }
+        return Redirect::route('details', $request->itemId);
     }
 
     /**
