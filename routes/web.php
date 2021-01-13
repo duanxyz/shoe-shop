@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemDetailsController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,7 +28,8 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('/details/{id}', [ItemDetailsController::class, 'index'])->name('details');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('details/{id}', [ItemDetailsController::class, 'index'])->name('details');
     Route::resource('cart', CartController::class);
+    Route::get('buy-directly/{item}/quantity/{quantity}', [OrderController::class, 'index'])->name('buy_directly');
 });

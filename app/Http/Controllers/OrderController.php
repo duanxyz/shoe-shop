@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -12,9 +14,15 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Item $item, $quantity)
     {
-        //
+        return Inertia::render('BuyDirectly/index', [
+            'item' => [
+                'name' => $item->name,
+                'price' => $item->price,
+                'quantity' => $quantity
+            ],
+        ]);
     }
 
     /**
