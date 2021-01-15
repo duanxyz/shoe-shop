@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ShowAllController extends Controller
@@ -22,6 +23,9 @@ class ShowAllController extends Controller
         if ($filter == "terlaris") {
             $query = $this->item->getBestSellers();
             $view = "ShowAll/BestSellers";
+        } else if ($filter == "terakhir-dilihat") {
+            $query = $this->item->getLastSeen(Auth::user()->customer->getIdItemLastSeen());
+            $view = "ShowAll/LastSeen";
         }
 
         return Inertia::render($view, [

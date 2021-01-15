@@ -2,10 +2,10 @@
     <section class="sm:px-6 lg:px-14 relative">
         <div class="flex items-center">
             <h2 class="px-4 font-bold text-2xl pt-4 mb-4">Terakhir dilihat</h2>
-            <a
-                href="#"
+            <inertia-link
+                :href="route('show-all', 'terakhir-dilihat')"
                 class="text-blue-500 font-bold text-base hover:text-blue-600"
-                >Lihat Semua</a
+                >Lihat Semua</inertia-link
             >
         </div>
         <div
