@@ -5,13 +5,20 @@
                 <h3 class="font-bold text-gray-500">Total</h3>
                 <b>Rp{{ totalPrice | curency }}</b>
             </div>
-            <!-- <inertia-link :href="route('buy_directly', item)">
+            <inertia-link
+                :href="
+                    route('buy_directly', {
+                        item: item.item.id,
+                        quantity: item.quantity,
+                    })
+                "
+            >
                 <button
                     class="bg-white text-yellow-600 px-5 py-2 font-bold border-yellow-600 border rounded-md"
                 >
                     Beli Langsung
                 </button>
-            </inertia-link> -->
+            </inertia-link>
             <form @submit.prevent="addCartItem">
                 <loading-button
                     :loading="sending"
