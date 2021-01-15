@@ -7,9 +7,9 @@ import { InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch,faBars,faShoppingCart,faBell,faEnvelope, faAngleRight, faAngleLeft, faCaretRight, faPlusCircle, faMinusCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faSearch,faBars,faShoppingCart,faBell,faEnvelope, faAngleRight, faAngleLeft, faCaretRight, faPlusCircle, faMinusCircle, faTrash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight, faAngleLeft, faCaretRight, faPlusCircle, faMinusCircle, faTrash);
+library.add(faSearch, faBars, faShoppingCart, faBell, faEnvelope, faAngleRight, faAngleLeft, faCaretRight, faPlusCircle, faMinusCircle, faTrash, faTimes);
 
 /* filters */
 Vue.filter('truncate', (text, length, clamp) => {
@@ -25,6 +25,11 @@ Vue.filter('curency', (value) => {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 });
 
+Vue.filter('capitalize', (value) => {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+});
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.mixin({ methods: { route } });

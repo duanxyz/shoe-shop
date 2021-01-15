@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -12,9 +16,18 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Item $item, $quantity)
     {
-        //
+        return Inertia::render('BuyDirectly/index', [
+            'item' => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'price' => $item->price,
+                'photo_url' => $item->photo->photo_url,
+                'quantity' => $quantity
+            ],
+            'addresses' => Auth::user()->customer->addresses,
+        ]);
     }
 
     /**
@@ -35,7 +48,18 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = Auth::user()->customer;
+
+        $order = $customer->orders()->create([
+            'customer_id' => $customer->id,
+            'payment' => $request->payment,
+            'grand_total' => $request->grand_total,
+            'status' => "Awaiting Confirmation",
+        ]);
+
+        $order->items()->attach([$request->item_id]);
+
+        return Redirect::route('dashboard');
     }
 
     /**
