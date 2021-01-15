@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemDetailsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RajaOngkirController;
+use App\Http\Controllers\ShowAllController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,4 +36,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('buy-directly/{item}/quantity/{quantity}', [OrderController::class, 'index'])->name('buy_directly');
     Route::resource('order', OrderController::class);
     Route::post('ongkos-kirim', [RajaOngkirController::class, 'getCost'])->name('ongkos-kirim');
+    Route::get('show-all/{filter}', [ShowAllController::class, 'index'])->name('show-all');
 });

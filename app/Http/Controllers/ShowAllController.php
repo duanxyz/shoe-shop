@@ -15,10 +15,17 @@ class ShowAllController extends Controller
         $this->item = $item;
     }
 
-    public function index(Request $request)
+    public function index($filter)
     {
-        return Inertia::render('ShowAll/index', [
-            'items' => $this->item->getBestSellers(),
+        $query = null;
+
+        if ($filter == "terlaris") {
+            $query = $this->item->getBestSellers();
+            $view = "ShowAll/BestSellers";
+        }
+
+        return Inertia::render($view, [
+            'items' => $query,
         ]);
     }
 }

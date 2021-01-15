@@ -2,11 +2,12 @@
     <section class="sm:px-6 lg:px-14">
         <div class="flex items-center">
             <h2 class="px-4 font-bold text-2xl pt-4 mb-4">Terlaris Untukmu</h2>
-            <a
-                href="#"
+            <inertia-link
+                :href="route('show-all', 'terlaris')"
                 class="text-blue-500 font-bold text-base hover:text-blue-600"
-                >Lihat Semua</a
             >
+                Lihat Semua
+            </inertia-link>
         </div>
         <div
             id="listItems"
