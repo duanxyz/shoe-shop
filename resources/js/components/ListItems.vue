@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-5 grid-flow-row overflow-x-hidden">
+    <div class="grid grid-cols-5 grid-flow-row gap-5 overflow-x-hidden">
         <div
             class="w-48 cursor-pointer pb-3"
             v-for="item in items"

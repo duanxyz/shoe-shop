@@ -35,6 +35,7 @@
                                         v-for="(category, index) in $page.props
                                             .categories.male"
                                         :key="index"
+                                        @click="params.category = category.name"
                                         class="hover:bg-gray-200 rounded-sm p-1 cursor-pointer"
                                     >
                                         <span>
@@ -59,6 +60,7 @@
                                         v-for="(category, index) in $page.props
                                             .categories.woman"
                                         :key="index"
+                                        @click="params.category = category.name"
                                         class="hover:bg-gray-200 rounded-sm p-1 cursor-pointer"
                                     >
                                         <span>
@@ -89,15 +91,19 @@
                         <div>
                             <input
                                 type="checkbox"
-                                name="baru"
                                 class="rounded-sm cursor-pointer"
+                                value="baru"
+                                @click="uncheckOther"
+                                v-model="condition"
                             />
                             <span>Baru</span>
                         </div>
                         <div>
                             <input
                                 type="checkbox"
-                                name="bekas"
+                                value="bekas"
+                                v-model="condition"
+                                @click="uncheckOther"
                                 class="rounded-sm cursor-pointer"
                             />
                             <span>Bekas</span>
@@ -122,6 +128,7 @@
                             <input
                                 type="number"
                                 name="min_price"
+                                v-on:keyup.enter="setMinPrice"
                                 class="h-8 w-full rounded-m"
                                 placeholder="Harga minimum"
                             />
@@ -131,6 +138,7 @@
                             <input
                                 type="number"
                                 name="max_price"
+                                v-on:keyup.enter="setMaxPrice"
                                 class="h-8 w-full rounded-m"
                                 placeholder="Harga maximum"
                             />
@@ -143,7 +151,11 @@
 </template>
 
 <script>
+import pickBy from 'lodash/pickBy';
+import throttle from 'lodash/throttle';
+
 export default {
+    props: ['query'],
     data() {
         return {
             filters: {
@@ -155,7 +167,51 @@ export default {
                 condition: true,
                 price: true,
             },
+            condition: [],
+            params: {
+                search: this.query.search,
+                category: this.query.category,
+                min_price: this.query.min_price,
+                max_price: this.query.max_price,
+                condition: this.query.condition,
+                low: this.query.low,
+                height: this.query.height,
+                latest: this.query.latest,
+            },
         };
+    },
+    // computed: {
+    //     baru() {
+    //         return 'baru';
+    //     },
+    //     bekas() {
+    //         return 'bekas';
+    //     },
+    // },
+    watch: {
+        params: {
+            handler: throttle(function () {
+                let query = pickBy(this.params);
+                this.$inertia.replace(
+                    this.route('search', Object.keys(query).length ? query : '')
+                );
+            }, 150),
+            deep: true,
+        },
+        condition: function () {
+            this.params.condition = this.condition[0];
+        },
+    },
+    methods: {
+        uncheckOther() {
+            this.condition.shift();
+        },
+        setMinPrice(e) {
+            this.params.min_price = e.path[0].value;
+        },
+        setMaxPrice(e) {
+            this.params.max_price = e.path[0].value;
+        },
     },
 };
 </script>

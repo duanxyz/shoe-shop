@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SearchController extends Controller
 {
@@ -18,7 +19,7 @@ class SearchController extends Controller
     {
         $category = null;
 
-        $query = $this->item->query()->with('category');
+        $query = $this->item->query()->with(['category', 'photo']);
         if (!empty($request->min_price)) {
             $query->where('price', '>=', $request->min_price);
         }
@@ -58,6 +59,9 @@ class SearchController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        return $query->get();
+        return Inertia::render('Search/index', [
+            'filters' => $request->only('min_price', 'max_price', 'condition', 'search', 'low', 'height', 'latest', 'category'),
+            'items' => $query->get(),
+        ]);
     }
 }
