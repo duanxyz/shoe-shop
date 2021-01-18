@@ -35,12 +35,25 @@
                                         v-for="(category, index) in $page.props
                                             .categories.male"
                                         :key="index"
-                                        @click="params.category = category.name"
-                                        class="hover:bg-gray-200 rounded-sm p-1 cursor-pointer"
+                                        class="hover:bg-gray-200 rounded-sm p-1"
+                                        :class="{
+                                            'bg-gray-200':
+                                                isActive === category.name,
+                                        }"
                                     >
-                                        <span>
+                                        <label
+                                            :for="category.name + index"
+                                            class="cursor-pointer pl-2"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                class="absolute opacity-0"
+                                                :id="category.name + index"
+                                                :value="category.name"
+                                                v-model="ctgry"
+                                            />
                                             {{ category.name }}
-                                        </span>
+                                        </label>
                                     </li>
                                 </ul>
                             </li>
@@ -60,12 +73,25 @@
                                         v-for="(category, index) in $page.props
                                             .categories.woman"
                                         :key="index"
-                                        @click="params.category = category.name"
-                                        class="hover:bg-gray-200 rounded-sm p-1 cursor-pointer"
+                                        class="hover:bg-gray-200 rounded-sm p-1"
+                                        :class="{
+                                            'bg-gray-200':
+                                                isActive === category.name,
+                                        }"
                                     >
-                                        <span>
+                                        <label
+                                            :for="category.name + index"
+                                            class="cursor-pointer pl-2"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                class="absolute opacity-0"
+                                                :id="category.name + index"
+                                                :value="category.name"
+                                                v-model="ctgry"
+                                            />
                                             {{ category.name }}
-                                        </span>
+                                        </label>
                                     </li>
                                 </ul>
                             </li>
@@ -129,6 +155,7 @@
                                 type="number"
                                 name="min_price"
                                 v-on:keyup.enter="setMinPrice"
+                                :value="min_price"
                                 class="h-8 w-full rounded-m"
                                 placeholder="Harga minimum"
                             />
@@ -138,6 +165,7 @@
                             <input
                                 type="number"
                                 name="max_price"
+                                :value="max_price"
                                 v-on:keyup.enter="setMaxPrice"
                                 class="h-8 w-full rounded-m"
                                 placeholder="Harga maximum"
@@ -153,8 +181,10 @@
 <script>
 import pickBy from 'lodash/pickBy';
 import throttle from 'lodash/throttle';
+import Label from '../Jetstream/Label.vue';
 
 export default {
+    components: { Label },
     props: ['query'],
     data() {
         return {
@@ -167,7 +197,11 @@ export default {
                 condition: true,
                 price: true,
             },
-            condition: [],
+            isActive: this.query.category,
+            ctgry: [],
+            condition: [this.query.condition],
+            min_price: this.query.min_price,
+            max_price: this.query.max_price,
             params: {
                 search: this.query.search,
                 category: this.query.category,
@@ -180,14 +214,6 @@ export default {
             },
         };
     },
-    // computed: {
-    //     baru() {
-    //         return 'baru';
-    //     },
-    //     bekas() {
-    //         return 'bekas';
-    //     },
-    // },
     watch: {
         params: {
             handler: throttle(function () {
@@ -201,16 +227,41 @@ export default {
         condition: function () {
             this.params.condition = this.condition[0];
         },
+        ctgry: function () {
+            if (this.ctgry.length > 1) {
+                this.ctgry.shift();
+                this.isActive = this.ctgry[0];
+                this.params.category = this.ctgry[0];
+            } else if (this.ctgry.length < 1) {
+                this.isActive = null;
+                this.params.category = null;
+            } else {
+                this.isActive = this.ctgry[0];
+                this.params.category = this.ctgry[0];
+            }
+        },
+        min_price: function () {
+            this.params.min_price = this.min_price;
+        },
+        max_price: function () {
+            this.params.max_price = this.max_price;
+        },
     },
     methods: {
         uncheckOther() {
             this.condition.shift();
         },
         setMinPrice(e) {
-            this.params.min_price = e.path[0].value;
+            this.min_price = e.path[0].value;
         },
         setMaxPrice(e) {
-            this.params.max_price = e.path[0].value;
+            this.max_price = e.path[0].value;
+        },
+        activate(el) {
+            console.log(el === this.isActive);
+            this.isActive === el
+                ? (this.isActive = null)
+                : (this.isActive = el);
         },
     },
 };

@@ -18886,6 +18886,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_pickBy__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/throttle */ "./node_modules/lodash/throttle.js");
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Jetstream_Label_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Jetstream/Label.vue */ "./resources/js/Jetstream/Label.vue");
 //
 //
 //
@@ -19038,9 +19039,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Label: _Jetstream_Label_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   props: ['query'],
   data: function data() {
     return {
@@ -19053,7 +19086,11 @@ __webpack_require__.r(__webpack_exports__);
         condition: true,
         price: true
       },
-      condition: [],
+      isActive: this.query.category,
+      ctgry: [],
+      condition: [this.query.condition],
+      min_price: this.query.min_price,
+      max_price: this.query.max_price,
       params: {
         search: this.query.search,
         category: this.query.category,
@@ -19066,14 +19103,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  // computed: {
-  //     baru() {
-  //         return 'baru';
-  //     },
-  //     bekas() {
-  //         return 'bekas';
-  //     },
-  // },
   watch: {
     params: {
       handler: lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default()(function () {
@@ -19084,6 +19113,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     condition: function condition() {
       this.params.condition = this.condition[0];
+    },
+    ctgry: function ctgry() {
+      if (this.ctgry.length > 1) {
+        this.ctgry.shift();
+        this.isActive = this.ctgry[0];
+        this.params.category = this.ctgry[0];
+      } else if (this.ctgry.length < 1) {
+        this.isActive = null;
+        this.params.category = null;
+      } else {
+        this.isActive = this.ctgry[0];
+        this.params.category = this.ctgry[0];
+      }
+    },
+    min_price: function min_price() {
+      this.params.min_price = this.min_price;
+    },
+    max_price: function max_price() {
+      this.params.max_price = this.max_price;
     }
   },
   methods: {
@@ -19091,10 +19139,14 @@ __webpack_require__.r(__webpack_exports__);
       this.condition.shift();
     },
     setMinPrice: function setMinPrice(e) {
-      this.params.min_price = e.path[0].value;
+      this.min_price = e.path[0].value;
     },
     setMaxPrice: function setMaxPrice(e) {
-      this.params.max_price = e.path[0].value;
+      this.max_price = e.path[0].value;
+    },
+    activate: function activate(el) {
+      console.log(el === this.isActive);
+      this.isActive === el ? this.isActive = null : this.isActive = el;
     }
   }
 });
@@ -19640,6 +19692,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/pickBy */ "./node_modules/lodash/pickBy.js");
+/* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_pickBy__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/throttle */ "./node_modules/lodash/throttle.js");
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -19663,8 +19719,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Search"
+  name: 'Search',
+  data: function data() {
+    return {
+      params: {
+        search: ''
+      }
+    };
+  },
+  watch: {
+    params: {
+      handler: lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default()(function () {
+        var query = lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default()(this.params);
+        this.$inertia.replace(this.route('search', Object.keys(query).length ? query : ''));
+      }, 150),
+      deep: true
+    }
+  },
+  created: function created() {
+    var url = new URL(window.location.href);
+
+    if (url.searchParams.get('search')) {
+      this.params.search = url.searchParams.get('search');
+    }
+  }
 });
 
 /***/ }),
@@ -19706,6 +19788,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -19728,7 +19814,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var _this = this;
 
         ['latest', 'low', 'height'].forEach(function (n) {
-          if (n !== Object.getOwnPropertyNames(_this.sort)) _this.params[n] = false;
+          if (n !== Object.getOwnPropertyNames(_this.sort)) {
+            _this.params[n] = false;
+          }
         });
 
         var query = _objectSpread(_objectSpread({}, lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default()(this.params)), lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default()(this.sort));
@@ -52359,21 +52447,73 @@ var render = function() {
                                 {
                                   key: index,
                                   staticClass:
-                                    "hover:bg-gray-200 rounded-sm p-1 cursor-pointer",
-                                  on: {
-                                    click: function($event) {
-                                      _vm.params.category = category.name
-                                    }
+                                    "hover:bg-gray-200 rounded-sm p-1",
+                                  class: {
+                                    "bg-gray-200":
+                                      _vm.isActive === category.name
                                   }
                                 },
                                 [
-                                  _c("span", [
-                                    _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(category.name) +
-                                        "\n                                    "
-                                    )
-                                  ])
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "cursor-pointer pl-2",
+                                      attrs: { for: category.name + index }
+                                    },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.ctgry,
+                                            expression: "ctgry"
+                                          }
+                                        ],
+                                        staticClass: "absolute opacity-0",
+                                        attrs: {
+                                          type: "checkbox",
+                                          id: category.name + index
+                                        },
+                                        domProps: {
+                                          value: category.name,
+                                          checked: Array.isArray(_vm.ctgry)
+                                            ? _vm._i(_vm.ctgry, category.name) >
+                                              -1
+                                            : _vm.ctgry
+                                        },
+                                        on: {
+                                          change: function($event) {
+                                            var $$a = _vm.ctgry,
+                                              $$el = $event.target,
+                                              $$c = $$el.checked ? true : false
+                                            if (Array.isArray($$a)) {
+                                              var $$v = category.name,
+                                                $$i = _vm._i($$a, $$v)
+                                              if ($$el.checked) {
+                                                $$i < 0 &&
+                                                  (_vm.ctgry = $$a.concat([
+                                                    $$v
+                                                  ]))
+                                              } else {
+                                                $$i > -1 &&
+                                                  (_vm.ctgry = $$a
+                                                    .slice(0, $$i)
+                                                    .concat($$a.slice($$i + 1)))
+                                              }
+                                            } else {
+                                              _vm.ctgry = $$c
+                                            }
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(category.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
                                 ]
                               )
                             }),
@@ -52418,21 +52558,73 @@ var render = function() {
                                 {
                                   key: index,
                                   staticClass:
-                                    "hover:bg-gray-200 rounded-sm p-1 cursor-pointer",
-                                  on: {
-                                    click: function($event) {
-                                      _vm.params.category = category.name
-                                    }
+                                    "hover:bg-gray-200 rounded-sm p-1",
+                                  class: {
+                                    "bg-gray-200":
+                                      _vm.isActive === category.name
                                   }
                                 },
                                 [
-                                  _c("span", [
-                                    _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(category.name) +
-                                        "\n                                    "
-                                    )
-                                  ])
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "cursor-pointer pl-2",
+                                      attrs: { for: category.name + index }
+                                    },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.ctgry,
+                                            expression: "ctgry"
+                                          }
+                                        ],
+                                        staticClass: "absolute opacity-0",
+                                        attrs: {
+                                          type: "checkbox",
+                                          id: category.name + index
+                                        },
+                                        domProps: {
+                                          value: category.name,
+                                          checked: Array.isArray(_vm.ctgry)
+                                            ? _vm._i(_vm.ctgry, category.name) >
+                                              -1
+                                            : _vm.ctgry
+                                        },
+                                        on: {
+                                          change: function($event) {
+                                            var $$a = _vm.ctgry,
+                                              $$el = $event.target,
+                                              $$c = $$el.checked ? true : false
+                                            if (Array.isArray($$a)) {
+                                              var $$v = category.name,
+                                                $$i = _vm._i($$a, $$v)
+                                              if ($$el.checked) {
+                                                $$i < 0 &&
+                                                  (_vm.ctgry = $$a.concat([
+                                                    $$v
+                                                  ]))
+                                              } else {
+                                                $$i > -1 &&
+                                                  (_vm.ctgry = $$a
+                                                    .slice(0, $$i)
+                                                    .concat($$a.slice($$i + 1)))
+                                              }
+                                            } else {
+                                              _vm.ctgry = $$c
+                                            }
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(category.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
                                 ]
                               )
                             }),
@@ -52604,6 +52796,7 @@ var render = function() {
                         name: "min_price",
                         placeholder: "Harga minimum"
                       },
+                      domProps: { value: _vm.min_price },
                       on: {
                         keyup: function($event) {
                           if (
@@ -52636,6 +52829,7 @@ var render = function() {
                         name: "max_price",
                         placeholder: "Harga maximum"
                       },
+                      domProps: { value: _vm.max_price },
                       on: {
                         keyup: function($event) {
                           if (
@@ -53478,9 +53672,26 @@ var render = function() {
         { staticClass: "relative flex w-full flex-wrap items-stretch" },
         [
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.params.search,
+                expression: "params.search"
+              }
+            ],
             staticClass:
               "px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white rounded-full text-sm shadow-outline-gray focus:outline-none focus:shadow-outline w-full pl-10 h-7",
-            attrs: { type: "text", placeholder: "Search here..." }
+            attrs: { type: "text", placeholder: "Search here..." },
+            domProps: { value: _vm.params.search },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.params, "search", $event.target.value)
+              }
+            }
           }),
           _vm._v(" "),
           _c(
@@ -53552,17 +53763,25 @@ var render = function() {
       [
         _c("option", { attrs: { value: "" } }, [_vm._v("Paling Sesuai")]),
         _vm._v(" "),
-        _c("option", { domProps: { value: { latest: true } } }, [
-          _vm._v("Terbaru")
-        ]),
+        _c(
+          "option",
+          { domProps: { value: { latest: true }, selected: true } },
+          [_vm._v("Terbaru")]
+        ),
         _vm._v(" "),
-        _c("option", { domProps: { value: { height: true } } }, [
-          _vm._v("Harga Tertinggi")
-        ]),
+        _c(
+          "option",
+          {
+            domProps: { value: { height: true }, selected: _vm.params.height }
+          },
+          [_vm._v("\n            Harga Tertinggi\n        ")]
+        ),
         _vm._v(" "),
-        _c("option", { domProps: { value: { low: true } } }, [
-          _vm._v("Harga Terendah")
-        ])
+        _c(
+          "option",
+          { domProps: { value: { low: true }, selected: _vm.params.low } },
+          [_vm._v("\n            Harga Terendah\n        ")]
+        )
       ]
     )
   ])

@@ -8,9 +8,13 @@
         > -->
         <select name="sort" v-model="sort" class="text-sm rounded-md">
             <option value="">Paling Sesuai</option>
-            <option :value="{ latest: true }">Terbaru</option>
-            <option :value="{ height: true }">Harga Tertinggi</option>
-            <option :value="{ low: true }">Harga Terendah</option>
+            <option :value="{ latest: true }" :selected="true">Terbaru</option>
+            <option :value="{ height: true }" :selected="params.height">
+                Harga Tertinggi
+            </option>
+            <option :value="{ low: true }" :selected="params.low">
+                Harga Terendah
+            </option>
         </select>
         <!-- </inertia-link> -->
     </div>
@@ -38,8 +42,9 @@ export default {
         sort: {
             handler: throttle(function () {
                 ['latest', 'low', 'height'].forEach((n) => {
-                    if (n !== Object.getOwnPropertyNames(this.sort))
+                    if (n !== Object.getOwnPropertyNames(this.sort)) {
                         this.params[n] = false;
+                    }
                 });
 
                 let query = { ...pickBy(this.params), ...pickBy(this.sort) };

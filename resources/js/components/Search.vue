@@ -9,6 +9,7 @@
             <input
                 type="text"
                 placeholder="Search here..."
+                v-model="params.search"
                 class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white rounded-full text-sm shadow-outline-gray focus:outline-none focus:shadow-outline w-full pl-10 h-7"
             />
             <button
@@ -22,8 +23,35 @@
 </template>
 
 <script>
+import pickBy from 'lodash/pickBy';
+import throttle from 'lodash/throttle';
+
 export default {
-    name: "Search",
+    name: 'Search',
+    data() {
+        return {
+            params: {
+                search: '',
+            },
+        };
+    },
+    watch: {
+        params: {
+            handler: throttle(function () {
+                let query = pickBy(this.params);
+                this.$inertia.replace(
+                    this.route('search', Object.keys(query).length ? query : '')
+                );
+            }, 150),
+            deep: true,
+        },
+    },
+    created() {
+        const url = new URL(window.location.href);
+        if (url.searchParams.get('search')) {
+            this.params.search = url.searchParams.get('search');
+        }
+    },
 };
 </script>
 

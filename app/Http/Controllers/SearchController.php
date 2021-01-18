@@ -43,7 +43,7 @@ class SearchController extends Controller
             $category = $request->search;
         }
 
-        $query->whereHas('category', function ($q) use ($category) {
+        $query->orWhereHas('category', function ($q) use ($category) {
             $q->where('name', 'like', '%' . $category . '%');
         });
 
