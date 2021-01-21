@@ -26,12 +26,13 @@
                                     ></div>
                                 </div>
 
-                                <div v-for="item in cart.items" class="py-5">
+                                <div v-for="(item, key) in items" class="py-5">
                                     <div class="flex items-center gap-5">
                                         <input
                                             type="checkbox"
                                             class="check-item appearance-none h-5 w-5 cursor-pointer border-gray-400 border-2 rounded-md checked:bg-blue-600 focus:ring-0"
                                             :value="{
+                                                id: item.id,
                                                 quantity: item.pivot.quantity,
                                                 price: item.price,
                                             }"
@@ -94,10 +95,10 @@
                                                 <div class="flex pl-5">
                                                     <font-awesome-icon
                                                         v-on:click="
-                                                            item.pivot
-                                                                .quantity > 1
-                                                                ? (item.pivot.quantity -= 1)
-                                                                : none
+                                                            lessQuantity(
+                                                                item.id,
+                                                                key
+                                                            )
                                                         "
                                                         icon="minus-circle"
                                                         class="cursor-pointer"
@@ -111,14 +112,18 @@
                                                     <input
                                                         type="text"
                                                         name="total"
-                                                        :value="
-                                                            item.pivot.quantity
+                                                        v-model="
+                                                            items[key].pivot
+                                                                .quantity
                                                         "
                                                         class="border-0 border-b focus:ring-0 w-14 text-center"
                                                     />
                                                     <font-awesome-icon
                                                         v-on:click="
-                                                            item.pivot.quantity += 1
+                                                            addQuantity(
+                                                                item.id,
+                                                                key
+                                                            )
                                                         "
                                                         icon="plus-circle"
                                                         class="text-green-500 cursor-pointer"
@@ -165,18 +170,18 @@
                                     </dd>
                                 </div>
 
-                                <inertia-link
-                                    :href="route('details', cart.items[0].id)"
+                                <!-- <inertia-link
+                                    :href="route('buy_directly', form)"{}> -->
+                                <button
+                                    id="checkout"
+                                    class="text-white font-bold text-lg py-3 rounded-md hover:shadow-lg w-full"
+                                    :class="isButton"
+                                    :disabled="isDisabled"
+                                    @click="checkout"
                                 >
-                                    <button
-                                        id="checkout"
-                                        class="text-white font-bold text-lg py-3 rounded-md hover:shadow-lg w-full"
-                                        :class="isButton"
-                                        :disabled="isDisabled"
-                                    >
-                                        Beli
-                                    </button>
-                                </inertia-link>
+                                    Beli
+                                </button>
+                                <!-- </inertia-link> -->
                             </div>
                         </div>
                     </div>
@@ -196,14 +201,25 @@ export default {
     props: ['cart'],
     data() {
         return {
+            items: this.cart.items,
             totalItem: {
                 price: 0,
                 quantity: 0,
             },
+            quantity: 0,
             isHandleCheckAll: null,
             isData: [],
             isAll: false,
+            form: [],
         };
+    },
+    watch: {
+        isData: function () {
+            this.reduceTotal();
+        },
+        quantity: function () {
+            this.reduceTotal();
+        },
     },
     computed: {
         totalClass() {
@@ -228,6 +244,30 @@ export default {
         },
     },
     methods: {
+        addQuantity(id, key) {
+            if (this.isData.length) {
+                let index = this.isData.findIndex((data) => data.id === id);
+                this.isData[index].quantity += 1;
+                this.items[key].pivot.quantity += 1;
+                this.quantity += 1;
+            } else {
+                this.items[key].pivot.quantity += 1;
+            }
+        },
+        lessQuantity(id, key) {
+            if (this.isData.length) {
+                let index = this.isData.findIndex((data) => data.id === id);
+                if (this.isData[index].quantity > 1) {
+                    this.isData[index].quantity -= 1;
+                    this.items[key].pivot.quantity -= 1;
+                    this.quantity -= 1;
+                }
+            } else {
+                if (this.items[key].pivot.quantity > 1) {
+                    this.items[key].pivot.quantity -= 1;
+                }
+            }
+        },
         handleCheckAll(e) {
             if (115 < e.target.scrollingElement.scrollTop) {
                 this.isHandleCheckAll = true;
@@ -241,6 +281,7 @@ export default {
             if (!this.isAll) {
                 this.cart.items.forEach((item) => {
                     this.isData.push({
+                        id: item.id,
                         price: item.price,
                         quantity: item.pivot.quantity,
                     });
@@ -248,28 +289,43 @@ export default {
             }
         },
         reduceTotal() {
+            this.form = [];
+            let quantity = [];
+            let price = [];
+
             if (this.isData.length) {
-                this.totalItem = this.isData.reduce((a, n) => {
-                    return {
-                        price: a.price + n.price,
-                        quantity: a.quantity + n.quantity,
-                    };
+                this.isData.forEach((n) => {
+                    quantity.push(n.quantity);
+                    price.push(n.price * n.quantity);
                 });
+                this.totalItem = {
+                    price: price.reduce((a, n) => a + n),
+                    quantity: quantity.reduce((a, n) => a + n),
+                };
             } else {
                 this.totalItem = { price: 0, quantity: 0 };
             }
+
+            this.isData.forEach((n) => {
+                this.form.push({ id: n.id, quantity: n.quantity });
+            });
+        },
+        checkout() {
+            this.$inertia.post(this.route('checkout'), {
+                item: this.form,
+                lots: true,
+            });
         },
     },
     created() {
         window.addEventListener('scroll', this.handleCheckAll);
     },
     mounted() {
-        window.addEventListener('change', this.reduceTotal);
-        console.log(this.totalItem.length);
+        // window.addEventListener('change', this.reduceTotal);
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleCheckAll);
-        window.removeEventListener('change', this.reduceTotal);
+        // window.removeEventListener('change', this.reduceTotal);
     },
 };
 </script>

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
+use function PHPSTORM_META\map;
+
 class OrderController extends Controller
 {
     /**
@@ -16,18 +18,32 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Item $item, $quantity)
+    public function index(Request $request)
     {
-        return Inertia::render('BuyDirectly/index', [
-            'item' => [
+        $sort = collect($request->item)->sortBy('id')->values()->all();
+        $itemId = [];
+        $quantity = [];
+
+        foreach ($sort as $item) {
+            array_push($itemId, $item['id']);
+            array_push($quantity, $item['quantity']);
+        }
+
+        $item = Item::find($itemId)->transform(function ($item, $key) use ($quantity) {
+            return [
                 'id' => $item->id,
                 'name' => $item->name,
                 'price' => $item->price,
                 'photo_url' => $item->photo->photo_url,
-                'quantity' => $quantity
-            ],
-            'addresses' => Auth::user()->customer->addresses,
-        ]);
+                'quantity' => $quantity[$key]
+            ];
+        });
+
+        if ($request->lots) {
+            return $this->checkout($item);
+        } else {
+            return $this->buyDirectly($item);
+        }
     }
 
     /**
@@ -57,7 +73,12 @@ class OrderController extends Controller
             'status' => "Awaiting Confirmation",
         ]);
 
-        $order->items()->attach([$request->item_id]);
+        foreach ($request->item_id as $id) {
+            $order->items()->attach($id);
+            if (count($request->item_id)) {
+                $customer->cart->items()->detach($id);
+            }
+        }
 
         return Redirect::route('dashboard');
     }
@@ -105,5 +126,21 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function buyDirectly($item)
+    {
+        return Inertia::render('BuyDirectly/index', [
+            'item' => $item,
+            'addresses' => Auth::user()->customer->addresses,
+        ]);
+    }
+
+    public function checkout($item)
+    {
+        return Inertia::render('Checkout/index', [
+            'items' => $item,
+            'addresses' => Auth::user()->customer->addresses,
+        ]);
     }
 }

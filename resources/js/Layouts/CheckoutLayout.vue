@@ -32,12 +32,10 @@
                         <h2 class="font-bold text-lg">Ringkasan Belanja</h2>
                         <div class="flex py-5 gap-36">
                             <dt>
-                                Total Harga ({{ item.quantity }}
+                                Total Harga ({{ totalItem.quantity }}
                                 barang)
                             </dt>
-                            <dd>
-                                Rp{{ (item.price * item.quantity) | curency }}
-                            </dd>
+                            <dd>Rp{{ totalItem.price | curency }}</dd>
                         </div>
                         <div class="flex py-2 gap-36">
                             <dt class="mr-6">Total Ongkos Kirim</dt>
@@ -51,8 +49,7 @@
                             <dt>Total Harga</dt>
                             <dd>
                                 Rp{{
-                                    (item.price * item.quantity + courier.value)
-                                        | curency
+                                    (totalItem.price + courier.value) | curency
                                 }}
                             </dd>
                         </div>
@@ -84,7 +81,7 @@
         <payment-modal
             :show="payment"
             :item="item"
-            :bill="item.price * item.quantity + courier.value"
+            :bill="totalItem.price + courier.value"
             @close="payment = false"
             :closeable="payment"
             @click.stop="payment = false"
@@ -127,12 +124,33 @@ export default {
                 ? 'bg-gray-400 cursor-not-allowed'
                 : 'bg-blue-600';
         },
+        quantity() {
+            return this.item.reduce((a, n) => {
+                return a.quantity + n.quantity;
+            });
+        },
     },
     methods: {
         openModal() {
             console.log(this.courier);
             this.show = !this.show;
         },
+        reduceTotal() {
+            let quantity = [];
+            let price = [];
+
+            this.item.forEach((n) => {
+                quantity.push(n.quantity);
+                price.push(n.price * n.quantity);
+            });
+            this.totalItem = {
+                price: price.reduce((a, n) => a + n),
+                quantity: quantity.reduce((a, n) => a + n),
+            };
+        },
+    },
+    created() {
+        this.reduceTotal();
     },
 };
 </script>

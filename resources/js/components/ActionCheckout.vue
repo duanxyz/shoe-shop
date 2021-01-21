@@ -5,20 +5,13 @@
                 <h3 class="font-bold text-gray-500">Total</h3>
                 <b>Rp{{ totalPrice | curency }}</b>
             </div>
-            <inertia-link
-                :href="
-                    route('buy_directly', {
-                        item: item.item.id,
-                        quantity: item.quantity,
-                    })
-                "
+
+            <button
+                @click="checkout"
+                class="bg-white text-yellow-600 px-5 py-2 font-bold border-yellow-600 border rounded-md"
             >
-                <button
-                    class="bg-white text-yellow-600 px-5 py-2 font-bold border-yellow-600 border rounded-md"
-                >
-                    Beli Langsung
-                </button>
-            </inertia-link>
+                Beli Langsung
+            </button>
             <form @submit.prevent="addCartItem">
                 <loading-button
                     :loading="sending"
@@ -42,6 +35,7 @@ export default {
     data() {
         return {
             sending: false,
+            form: [],
         };
     },
     methods: {
@@ -54,6 +48,17 @@ export default {
                     onFinish: () => (this.sending = false),
                 }
             );
+        },
+        checkout() {
+            let form = [];
+            form.push({
+                id: this.item.item.id,
+                quantity: this.item.quantity,
+            });
+            this.$inertia.post(this.route('buy_directly'), {
+                item: form,
+                lots: false,
+            });
         },
     },
 };
