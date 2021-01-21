@@ -16299,6 +16299,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -16313,7 +16314,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       isHandleCheckAll: null,
       isData: [],
-      isAll: false
+      isAll: false,
+      form: []
     };
   },
   computed: {
@@ -16336,6 +16338,19 @@ __webpack_require__.r(__webpack_exports__);
       return !this.isData.length ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600';
     }
   },
+  watch: {
+    isData: function isData() {
+      var _this = this;
+
+      this.form = [];
+      this.isData.forEach(function (n) {
+        _this.form.push({
+          id: n.id,
+          quantity: n.quantity
+        });
+      });
+    }
+  },
   methods: {
     handleCheckAll: function handleCheckAll(e) {
       if (115 < e.target.scrollingElement.scrollTop) {
@@ -16345,13 +16360,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     handleCheckbox: function handleCheckbox() {
-      var _this = this;
+      var _this2 = this;
 
       this.isData = [];
 
       if (!this.isAll) {
         this.cart.items.forEach(function (item) {
-          _this.isData.push({
+          _this2.isData.push({
+            id: item.id,
             price: item.price,
             quantity: item.pivot.quantity
           });
@@ -16372,6 +16388,12 @@ __webpack_require__.r(__webpack_exports__);
           quantity: 0
         };
       }
+    },
+    checkout: function checkout() {
+      this.$inertia.post(this.route('checkout', {
+        item: this.form,
+        lots: true
+      }));
     }
   },
   created: function created() {
@@ -16379,7 +16401,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     window.addEventListener('change', this.reduceTotal);
-    console.log(this.totalItem.length);
   },
   destroyed: function destroyed() {
     window.removeEventListener('scroll', this.handleCheckAll);
@@ -18063,13 +18084,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -18078,7 +18092,8 @@ __webpack_require__.r(__webpack_exports__);
   props: ['totalPrice', 'item'],
   data: function data() {
     return {
-      sending: false
+      sending: false,
+      form: []
     };
   },
   methods: {
@@ -18095,6 +18110,17 @@ __webpack_require__.r(__webpack_exports__);
         onFinish: function onFinish() {
           return _this.sending = false;
         }
+      });
+    },
+    checkout: function checkout() {
+      var form = [];
+      form.push({
+        id: this.item.item.id,
+        quantity: this.item.quantity
+      });
+      this.$inertia.post(this.route('buy_directly'), {
+        item: form,
+        lots: false
       });
     }
   }
@@ -48028,11 +48054,13 @@ var render = function() {
                             attrs: { type: "checkbox" },
                             domProps: {
                               value: {
+                                id: item.id,
                                 quantity: item.pivot.quantity,
                                 price: item.price
                               },
                               checked: Array.isArray(_vm.isData)
                                 ? _vm._i(_vm.isData, {
+                                    id: item.id,
                                     quantity: item.pivot.quantity,
                                     price: item.price
                                   }) > -1
@@ -48045,6 +48073,7 @@ var render = function() {
                                   $$c = $$el.checked ? true : false
                                 if (Array.isArray($$a)) {
                                   var $$v = {
+                                      id: item.id,
                                       quantity: item.pivot.quantity,
                                       price: item.price
                                     },
@@ -48259,31 +48288,21 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c(
-                      "inertia-link",
+                      "button",
                       {
-                        attrs: {
-                          href: _vm.route("details", _vm.cart.items[0].id)
-                        }
+                        staticClass:
+                          "text-white font-bold text-lg py-3 rounded-md hover:shadow-lg w-full",
+                        class: _vm.isButton,
+                        attrs: { id: "checkout", disabled: _vm.isDisabled },
+                        on: { click: _vm.checkout }
                       },
                       [
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "text-white font-bold text-lg py-3 rounded-md hover:shadow-lg w-full",
-                            class: _vm.isButton,
-                            attrs: { id: "checkout", disabled: _vm.isDisabled }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                    Beli\n                                "
-                            )
-                          ]
+                        _vm._v(
+                          "\n                                Beli\n                            "
                         )
                       ]
                     )
-                  ],
-                  1
+                  ]
                 )
               ])
             ])
@@ -51040,66 +51059,47 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "fixed bottom-0 bg-white w-full" }, [
-    _c(
-      "div",
-      { staticClass: "flex py-5 px-10 gap-5 w-full justify-end" },
-      [
-        _c("div", [
-          _c("h3", { staticClass: "font-bold text-gray-500" }, [
-            _vm._v("Total")
-          ]),
-          _vm._v(" "),
-          _c("b", [_vm._v("Rp" + _vm._s(_vm._f("curency")(_vm.totalPrice)))])
-        ]),
+    _c("div", { staticClass: "flex py-5 px-10 gap-5 w-full justify-end" }, [
+      _c("div", [
+        _c("h3", { staticClass: "font-bold text-gray-500" }, [_vm._v("Total")]),
         _vm._v(" "),
-        _c(
-          "inertia-link",
-          {
-            attrs: {
-              href: _vm.route("buy_directly", {
-                item: _vm.item.item.id,
-                quantity: _vm.item.quantity
-              })
+        _c("b", [_vm._v("Rp" + _vm._s(_vm._f("curency")(_vm.totalPrice)))])
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "bg-white text-yellow-600 px-5 py-2 font-bold border-yellow-600 border rounded-md",
+          on: { click: _vm.checkout }
+        },
+        [_vm._v("\n            Beli Langsung\n        ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addCartItem($event)
             }
-          },
-          [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "bg-white text-yellow-600 px-5 py-2 font-bold border-yellow-600 border rounded-md"
-              },
-              [_vm._v("\n                Beli Langsung\n            ")]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.addCartItem($event)
-              }
-            }
-          },
-          [
-            _c(
-              "loading-button",
-              {
-                staticClass:
-                  "bg-yellow-600 text-white px-5 py-2 font-bold border rounded-md",
-                attrs: { loading: _vm.sending, type: "submit" }
-              },
-              [_vm._v("\n                + Keranjang\n            ")]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
+          }
+        },
+        [
+          _c(
+            "loading-button",
+            {
+              staticClass:
+                "bg-yellow-600 text-white px-5 py-2 font-bold border rounded-md",
+              attrs: { loading: _vm.sending, type: "submit" }
+            },
+            [_vm._v("\n                + Keranjang\n            ")]
+          )
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []

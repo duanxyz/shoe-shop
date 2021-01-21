@@ -34,7 +34,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('details/{id}', [ItemDetailsController::class, 'index'])->name('details');
     Route::resource('cart', CartController::class);
-    Route::get('buy-directly/{item}/quantity/{quantity}', [OrderController::class, 'index'])->name('buy_directly');
+    Route::post('buy-directly', [OrderController::class, 'index'])->name('buy_directly');
+    Route::post('checkout', [OrderController::class, 'index'])->name('checkout');
     Route::resource('order', OrderController::class);
     Route::post('ongkos-kirim', [RajaOngkirController::class, 'getCost'])->name('ongkos-kirim');
     Route::get('show-all/{filter}', [ShowAllController::class, 'index'])->name('show-all');

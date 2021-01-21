@@ -32,6 +32,7 @@
                                             type="checkbox"
                                             class="check-item appearance-none h-5 w-5 cursor-pointer border-gray-400 border-2 rounded-md checked:bg-blue-600 focus:ring-0"
                                             :value="{
+                                                id: item.id,
                                                 quantity: item.pivot.quantity,
                                                 price: item.price,
                                             }"
@@ -165,18 +166,18 @@
                                     </dd>
                                 </div>
 
-                                <inertia-link
-                                    :href="route('details', cart.items[0].id)"
+                                <!-- <inertia-link
+                                    :href="route('buy_directly', form)"{}> -->
+                                <button
+                                    id="checkout"
+                                    class="text-white font-bold text-lg py-3 rounded-md hover:shadow-lg w-full"
+                                    :class="isButton"
+                                    :disabled="isDisabled"
+                                    @click="checkout"
                                 >
-                                    <button
-                                        id="checkout"
-                                        class="text-white font-bold text-lg py-3 rounded-md hover:shadow-lg w-full"
-                                        :class="isButton"
-                                        :disabled="isDisabled"
-                                    >
-                                        Beli
-                                    </button>
-                                </inertia-link>
+                                    Beli
+                                </button>
+                                <!-- </inertia-link> -->
                             </div>
                         </div>
                     </div>
@@ -203,6 +204,7 @@ export default {
             isHandleCheckAll: null,
             isData: [],
             isAll: false,
+            form: [],
         };
     },
     computed: {
@@ -227,6 +229,14 @@ export default {
                 : 'bg-blue-600';
         },
     },
+    watch: {
+        isData: function () {
+            this.form = [];
+            this.isData.forEach((n) => {
+                this.form.push({ id: n.id, quantity: n.quantity });
+            });
+        },
+    },
     methods: {
         handleCheckAll(e) {
             if (115 < e.target.scrollingElement.scrollTop) {
@@ -241,6 +251,7 @@ export default {
             if (!this.isAll) {
                 this.cart.items.forEach((item) => {
                     this.isData.push({
+                        id: item.id,
                         price: item.price,
                         quantity: item.pivot.quantity,
                     });
@@ -259,13 +270,20 @@ export default {
                 this.totalItem = { price: 0, quantity: 0 };
             }
         },
+        checkout() {
+            this.$inertia.post(
+                this.route('checkout', {
+                    item: this.form,
+                    lots: true,
+                })
+            );
+        },
     },
     created() {
         window.addEventListener('scroll', this.handleCheckAll);
     },
     mounted() {
         window.addEventListener('change', this.reduceTotal);
-        console.log(this.totalItem.length);
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleCheckAll);
