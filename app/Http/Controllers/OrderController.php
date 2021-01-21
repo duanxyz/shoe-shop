@@ -42,7 +42,7 @@ class OrderController extends Controller
         if ($request->lots) {
             return $this->checkout($item);
         } else {
-            return $this->buyDirectly($item->first());
+            return $this->buyDirectly($item);
         }
     }
 
@@ -73,7 +73,12 @@ class OrderController extends Controller
             'status' => "Awaiting Confirmation",
         ]);
 
-        $order->items()->attach([$request->item_id]);
+        foreach ($request->item_id as $id) {
+            $order->items()->attach($id);
+            if (count($request->item_id)) {
+                $customer->cart->items()->detach($id);
+            }
+        }
 
         return Redirect::route('dashboard');
     }
@@ -126,28 +131,15 @@ class OrderController extends Controller
     public function buyDirectly($item)
     {
         return Inertia::render('BuyDirectly/index', [
-            'item' => [
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'photo_url' => $item['photo_url'],
-                'quantity' => $item['quantity']
-            ],
+            'item' => $item,
             'addresses' => Auth::user()->customer->addresses,
         ]);
     }
 
     public function checkout($item)
     {
-        return $item;
         return Inertia::render('Checkout/index', [
-            'item' => [
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'photo_url' => $item['photo_url'],
-                'quantity' => $item['quantity']
-            ],
+            'items' => $item,
             'addresses' => Auth::user()->customer->addresses,
         ]);
     }

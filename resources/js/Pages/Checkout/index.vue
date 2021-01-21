@@ -12,7 +12,7 @@
                             </h1>
                             <checkout-layout
                                 :addresses="addresses"
-                                :item="item"
+                                :item="items"
                                 :courier="courier"
                             >
                                 <div class="py-3">
@@ -20,7 +20,7 @@
                                         Barang yang dibeli
                                     </h2>
                                     <div
-                                        v-for="(item, key) in item"
+                                        v-for="(item, key) in items"
                                         class="py-2"
                                     >
                                         <div class="flex items-center gap-10">
@@ -48,43 +48,11 @@
                                                     }}</b
                                                 >
                                             </div>
-                                            <div>
+                                            <div v-if="key === 0">
                                                 <kurir-dropdown
                                                     @clicked="onClickChild"
                                                 />
                                             </div>
-                                        </div>
-
-                                        <div class="flex justify-center mr-20">
-                                            <font-awesome-icon
-                                                v-on:click="
-                                                    item.quantity > 1
-                                                        ? (item.quantity -= 1)
-                                                        : item.quantity
-                                                "
-                                                icon="minus-circle"
-                                                class="cursor-pointer"
-                                                :class="
-                                                    item.quantity > 1
-                                                        ? 'text-green-500'
-                                                        : 'text-gray-400'
-                                                "
-                                            />
-                                            <input
-                                                type="text"
-                                                name="total"
-                                                :value="item.quantity"
-                                                class="border-0 border-b focus:ring-0 w-14 text-center"
-                                            />
-                                            <font-awesome-icon
-                                                v-on:click="
-                                                    item.quantity =
-                                                        Number(item.quantity) +
-                                                        1
-                                                "
-                                                icon="plus-circle"
-                                                class="text-green-500 cursor-pointer"
-                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +76,7 @@ export default {
         CheckoutLayout,
         KurirDropdown,
     },
-    props: ['item', 'addresses'],
+    props: ['items', 'addresses'],
     data() {
         return {
             courier: {

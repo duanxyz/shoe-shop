@@ -111,8 +111,9 @@ export default {
             this.$emit('close');
         },
         pay() {
+            const itemId = this.item.map((item) => item.id);
             const form = {
-                item_id: this.item.id,
+                item_id: itemId,
                 payment: 'COD',
                 grand_total: this.bill,
             };
